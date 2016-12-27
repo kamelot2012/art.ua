@@ -5,8 +5,8 @@
  * Date: 27.12.2016
  * Time: 20:40
  */
-require('models/article.php');
+require __DIR__ . '/models/article.php';
 
 $article = ArticlesGetAll();
-var_dump($article);
 
+require_once __DIR__ . '/views/articles.php';
