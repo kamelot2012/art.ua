@@ -1,6 +1,10 @@
 <?php
-require_once '/config/db_config.php';
-
+//require_once '/config/db_config.php';
+define('DB_HOST', 'localhost');
+define('DB_LOGIN', 'root');
+define('DB_PASSWORD', '');
+define('DB_NAME', 'art.ua');
+define('DB_TABLE', 'articles');
 function DB_connect(){
 //language setting
     setlocale(LC_CTYPE, "ukr");
@@ -22,9 +26,21 @@ function sql_query($sql){
     }
     return $ret;
 }
+function sql_query_one($sql){
+    if(!DB_connect()){
+        return false; //!!!??
+    }
+    $res = mysql_query($sql);
+    $row = mysql_fetch_assoc($res);
+    return $row;
+}
+function ArticleGetOne($id){
+    $sql = 'SELECT * FROM ' . DB_TABLE . ' WHERE id = '. $id;
+   // echo $sql;
+    return sql_query_one($sql);
+}
+
 function ArticlesGetAll(){
     $sql = 'SELECT * FROM ' . DB_TABLE . ' ORDER BY date ASC';
     return sql_query($sql);
-
-
 }
