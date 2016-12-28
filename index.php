@@ -10,3 +10,6 @@ require __DIR__ . '/models/article.php';
 $article = ArticlesGetAll();
 
 require_once __DIR__ . '/views/articles.php';
+
+?>
+

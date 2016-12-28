@@ -16,5 +16,6 @@
     <br>
     <hr style="max-width: inherit">
 <?php endforeach; ?>
+<a href="<?php echo '../controllers/add.php'?>">ADD Article</a>
 </body>
 </html>

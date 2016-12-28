@@ -5,6 +5,7 @@ define('DB_LOGIN', 'root');
 define('DB_PASSWORD', '');
 define('DB_NAME', 'art.ua');
 define('DB_TABLE', 'articles');
+
 function DB_connect(){
 //language setting
     setlocale(LC_CTYPE, "ukr");
@@ -34,6 +35,13 @@ function sql_query_one($sql){
     $row = mysql_fetch_assoc($res);
     return $row;
 }
+function sql_query_exec($sql){
+    if(!DB_connect()){
+        return false; //!!!??
+    }
+    return mysql_query($sql);
+
+}
 function ArticleGetOne($id){
     $sql = 'SELECT * FROM ' . DB_TABLE . ' WHERE id = '. $id;
    // echo $sql;
@@ -43,4 +51,13 @@ function ArticleGetOne($id){
 function ArticlesGetAll(){
     $sql = 'SELECT * FROM ' . DB_TABLE . ' ORDER BY date ASC';
     return sql_query($sql);
+}
+function ArticleInsert($title, $content){
+    if(!empty($title) && !empty($content)) {
+        $sql = "INSERT INTO " . DB_TABLE . " (title, content) VALUES ('" . $title . "', '" . $content . "')";
+        return sql_query_exec($sql);
+    } else {
+        return false;
+    }
+
 }
