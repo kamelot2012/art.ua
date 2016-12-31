@@ -9,6 +9,8 @@
 require '../models/article.php';
 if (isset($_GET['id']) && !empty($_GET['id'])){
     $id = 1 * $_GET['id'];
+} else {
+    $id = 1;
 };
 $article = ArticleGetOne($id);
 //print_r($article);

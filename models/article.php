@@ -11,35 +11,44 @@ function DB_connect(){
     setlocale(LC_CTYPE, "ukr");
     date_default_timezone_set('Europe/Kiev');
 //connect to DB
-    mysql_connect(DB_HOST, DB_LOGIN, DB_PASSWORD) or die('No connect to Data Base');
-    mysql_query("SET NAMES utf8");
-    mysql_select_db(DB_NAME) or die('No connect to table');
-    return true;
+    $link = mysqli_connect(DB_HOST, DB_LOGIN, DB_PASSWORD, DB_NAME);
+    if (mysqli_connect_errno()){
+        echo "Извините, возникла проблема на сайте";
+        echo "Номер_ошибки: " . mysqli_connect_errno() . "\n";
+        echo "Ошибка: " . mysqli_connect_error() . "\n";
+        return false;
+    }
+    $sql = "SET NAMES utf8";
+    if ($result = mysqli_query($link, $sql)) {
+        return $link;
+    }
+    return;
 }
 function sql_query($sql){
-    if(!DB_connect()){
-        return false; //!!!??
-    }
-    $res = mysql_query($sql);
+   $link = DB_connect();
     $ret = [];
-    while(false !== $row = mysql_fetch_assoc($res)){
-        $ret[] = $row;
-    }
+        if ($result = mysqli_query($link,$sql)) {
+            while ($row = mysqli_fetch_assoc($result)){
+                $ret[] = $row;
+            }
+        }
     return $ret;
 }
 function sql_query_one($sql){
-    if(!DB_connect()){
+    $link = DB_connect();
+    if(!$link){
         return false; //!!!??
     }
-    $res = mysql_query($sql);
-    $row = mysql_fetch_assoc($res);
+    $res = mysqli_query($link,$sql);
+    $row = mysqli_fetch_assoc($res);
     return $row;
 }
 function sql_query_exec($sql){
-    if(!DB_connect()){
+    $link = DB_connect();
+    if(!$link){
         return false; //!!!??
     }
-    return mysql_query($sql);
+    return mysqli_query($link, $sql);
 
 }
 function ArticleGetOne($id){
